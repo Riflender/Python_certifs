@@ -43,6 +43,3 @@ class Data:
 
     def get_minute_list(self):
         return self.url_list[:234]
-
-
-del get, listdir
