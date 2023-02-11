@@ -41,6 +41,6 @@ class Data:
     def get_part_list(self, nb_urls):
         return self.url_list[:nb_urls]
 
-    @property
+
     def get_minute_list(self):
         return self.url_list[:234]
