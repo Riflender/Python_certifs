@@ -1,9 +1,10 @@
-from os import listdir, cpu_count
-from requests import get
+from os import cpu_count
 import ssl
 import threading
 
 from time import time
+
+from Data import Data
 
 
 def get_cert(url: str, cert_list: list, error_list: list, cert_lock: threading.Lock, error_lock: threading.Lock):
@@ -18,21 +19,8 @@ def get_cert(url: str, cert_list: list, error_list: list, cert_lock: threading.L
 
 MAX_CPU = cpu_count()
 
-if "urls" not in listdir("."):
-    with open("urls", "wb") as f:
-        r = get("https://raw.githubusercontent.com/Alvir4/url/main/urls", allow_redirects=True)
-        f.write(r.content)
-if "sorted_urls" not in listdir("."):
-    with open("urls", "r") as fr:
-        tmp = "\n".join(sorted([x.replace("\n", "") for x in fr.readlines()[1:]]))
-
-        with open("sorted_urls", "w") as fw:
-            fw.write(f"Domain\n{tmp}\n")
-
-with open("urls", "r") as f:
-    url_list = [x.replace("\n", "") for x in f.readlines()][1:]
-
-part_list = url_list[:234]
+data = Data()
+part_list = data.get_minute_list
 
 cert_list = []
 error_list = []
@@ -59,6 +47,6 @@ for url in part_list:
 
 print(f"{time() - a:.2f}")
 
-print(f"{len(error_list)} erreurs sur {len(url_list):_} URLs")
+print(f"{len(error_list)} erreurs sur {len(part_list):_} URLs")
 
 print()
